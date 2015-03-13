@@ -2,7 +2,7 @@
 #define HD44780_SETTINGS_H
 
 #ifndef F_CPU
-#define F_CPU                    16000000     // Set Clock Frequency
+#define F_CPU                    8000000     // Set Clock Frequency
 #endif
 
 #define USE_ADELAY_LIBRARY       0           // Set to 1 to use my ADELAY library, 0 to use internal delay functions
