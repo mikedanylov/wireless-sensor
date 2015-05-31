@@ -4,32 +4,52 @@
  *  Created on: Jan 6, 2015
  *      Author: mikedanylov
  */
-#define F_CPU 8000000UL
+#define F_CPU 128000UL
 #include <util/delay.h>
 #include <stdlib.h>
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <math.h>
-#include "ADC.h"
 #include "nrf24.h"
-#include "hd44780.h"
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
-#define IDLE 000
-#define LED PB1
+/*
+ * LEDs ports and pins
+ *
+ * LED_tx - blinks once when data is transmitted.
+ * 			Also used for debugging purposes.
+ * 			ATmega328p pin 11, PD5, DDRD, PORTD
+ * LED_bat - (planned)red led, blinks 3 times
+ * 			when battery level is low.
+ */
+#define LED_tx PD5
+/*
+ * Waiting time is calculated
+ * considering Interrupt Frequency = 2.04 Hz
+ *
+ * For example, if WAIT_TIME = 10
+ * will generate ~20.4s of waiting time
+ */
+#define WAIT_TIME 5
 
+int TIMER_OVERFLOW = 0;
 double volatile Temperature;
 char buffer[PAYLOAD];
 uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
-volatile int FLAG = 1;
-volatile long counter = 0;
 
-void timer1_init(){
+void timer2_init(){
 
-	TIMSK1 |= (1 << TOIE1); // Enable overflow interrupt
-	sei(); // Enable global interrupts
-	TCCR1B |= (1 << CS12); // Start timer at Fcpu/256
+    // set up timer with prescaler = 1024
+    TCCR2B |= (1 << CS22);
+    TCCR2B |= (1 << CS21);
+	TCCR2B |= (1 << CS20);
+    // initialize counter
+    TCNT2 = 0;
+    // enable overflow interrupt
+    TIMSK2 |= (1 << TOIE2);
+    // enable global interrupts
+    sei();
 }
 
 void CPU_sleep(){
@@ -39,65 +59,60 @@ void CPU_sleep(){
 	sei();
 	sleep_cpu();
 	sleep_disable();
-	sei();
 }
 
-ISR(TIMER1_OVF_vect);
+ISR(TIMER2_OVF_vect);
 
 int main(){
 
 	nrf24_init();
-	InitADC();
-	lcd_init();
-	timer1_init();
-
+	timer2_init();
+	// Make LED pin of PORTD an output
+	DDRD = DDRD | (1<<LED_tx);
+	// set sleep mode for the chip
+	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 	/* Channel, payload length*/
 	nrf24_config(NRF24_CH,PAYLOAD);
-
 	/* Set the device addresses */
 	nrf24_tx_address(tx_address);
 
-	_delay_ms(1000);
-	lcd_home();
-	lcd_puts("Hello World");
-	_delay_ms(1000);
-	lcd_clrscr();
-
 	while(1){
 
-		if (FLAG == 1){
+		if (TIMER_OVERFLOW >= WAIT_TIME){
 
-			// Blinking LED for debugging
-			// Set pin 15 high.
-			PORTB |= 1 << LED;
-			_delay_ms(100);
-			//PORTB ^= (1 << LED); // Toggle the LED
-			// Set pin 15 low.
-			PORTB &= ~(1 << LED);
-			_delay_ms(100);
+			cli(); // turn off interrupts
+			TIMER_OVERFLOW = 0;
+			// Set LED_tx high indicating that transmission started
+			PORTD |= 1 << LED_tx;
 
-			Temperature = getTemperature();
-			lcd_home();
-			lcd_puts(double_to_string(Temperature));
+			/* get temperature from ADC
+			* currently won't work because
+			* new temperature sensor is going to be used
+			* which doesn't require A/D conversion
+			*/
+			/* TODO
+			 * read sensor data here
+			*/
 
 			/* Automatically goes to TX mode */
-			nrf24_send(double_to_string(Temperature));
+			/* TODO
+			 * send readings from sensor
+			 * over transceiver here
+			 * nrf24_send();
+			*/
 
 			/* Wait for transmission to end */
 			while(nrf24_isSending());
 			_delay_ms(100);
-
-			FLAG = 0;
-			// Put CPU to sleep
-			CPU_sleep();
+			// Set LED_tx low indicating that transmission completed
+			PORTD &= ~(1 << LED_tx);
 		}
+		// Put CPU to sleep mode
+		CPU_sleep();
 	}
 }
 
-ISR(TIMER1_OVF_vect){
-	counter++;
-	if (counter > 4){ // fires about every 10 seconds
-		FLAG = 1;
-		counter = 0;
-	}
+// Interrupt Frequency = 2.04 Hz
+ISR(TIMER2_OVF_vect){
+	TIMER_OVERFLOW++;
 }
