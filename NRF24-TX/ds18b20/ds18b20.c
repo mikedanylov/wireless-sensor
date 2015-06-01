@@ -14,7 +14,7 @@ Please refer to LICENSE file for licensing information.
 #include "ds18b20.h"
 
 /*
- * ds18b20 init
+ * ds18b20 initialization
  */
 uint8_t ds18b20_reset() {
 	uint8_t i;

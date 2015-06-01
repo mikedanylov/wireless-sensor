@@ -9,10 +9,10 @@
 #include <stdlib.h>
 #include <avr/io.h>
 #include <avr/pgmspace.h>
-#include <math.h>
-#include "nrf24.h"
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include "NRF24L01/nrf24.h"
+#include "TempSensHardAdapt.h"
 
 /*
  * LEDs ports and pins
@@ -34,7 +34,7 @@
 #define WAIT_TIME 5
 
 int TIMER_OVERFLOW = 0;
-double volatile Temperature;
+char* Temperature;
 char buffer[PAYLOAD];
 uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
 
@@ -85,21 +85,13 @@ int main(){
 			// Set LED_tx high indicating that transmission started
 			PORTD |= 1 << LED_tx;
 
-			/* get temperature from ADC
-			* currently won't work because
-			* new temperature sensor is going to be used
-			* which doesn't require A/D conversion
-			*/
-			/* TODO
-			 * read sensor data here
-			*/
+			/* Get temperature from sensor
+			 * return format: '23.45 C'
+			 */
+			Temperature = getTemperature();
 
 			/* Automatically goes to TX mode */
-			/* TODO
-			 * send readings from sensor
-			 * over transceiver here
-			 * nrf24_send();
-			*/
+			nrf24_send(Temperature);
 
 			/* Wait for transmission to end */
 			while(nrf24_isSending());

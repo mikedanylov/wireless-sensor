@@ -1,5 +1,10 @@
-main.d: ../main.c ../nrf24.h ../nRF24L01.h
+main.d: ../main.c ../NRF24L01/nrf24.h ../NRF24L01/nRF24L01.h \
+ ../TempSensHardAdapt.h ../ds18b20/ds18b20.h
 
-../nrf24.h:
+../NRF24L01/nrf24.h:
 
-../nRF24L01.h:
+../NRF24L01/nRF24L01.h:
+
+../TempSensHardAdapt.h:
+
+../ds18b20/ds18b20.h:

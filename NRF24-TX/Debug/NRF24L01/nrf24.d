@@ -1,0 +1,6 @@
+NRF24L01/nrf24.d: ../NRF24L01/nrf24.c ../NRF24L01/nrf24.h \
+ ../NRF24L01/nRF24L01.h
+
+../NRF24L01/nrf24.h:
+
+../NRF24L01/nRF24L01.h:

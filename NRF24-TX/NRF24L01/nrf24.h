@@ -71,7 +71,7 @@ void    nrf24_readRegister(uint8_t reg, uint8_t* value, uint8_t len);
 void    nrf24_writeRegister(uint8_t reg, uint8_t* value, uint8_t len);
 
 /* -------------------------------------------------------------------------- */
-/* You should implement the platform spesific functions in your code */
+/* You should implement the platform specific functions in your code */
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */

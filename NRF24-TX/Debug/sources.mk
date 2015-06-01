@@ -21,4 +21,6 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+ds18b20 \
+NRF24L01 \
 
