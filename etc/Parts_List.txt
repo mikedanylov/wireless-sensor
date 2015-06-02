@@ -6,5 +6,4 @@ Sensor Node (transmitter module)
 3) Switching PNP transistor 2N3906
 4) Step-up voltage regulator E50D input 1-5V out 5V 500 mA
 5) Linear voltage regulator AMS1117 3.3V
-6) Radio transiver NRF2401L+
-
+6) Radio transceiver NRF24L01+

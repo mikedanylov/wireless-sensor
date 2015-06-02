@@ -13,6 +13,8 @@
 #include <avr/sleep.h>
 #include "NRF24L01/nrf24.h"
 #include "TempSensHardAdapt.h"
+#include "NRF24L01_HardAdapt.h"
+#include "Record.h"
 
 /*
  * LEDs ports and pins
@@ -32,11 +34,7 @@
  * will generate ~20.4s of waiting time
  */
 #define WAIT_TIME 5
-
 int TIMER_OVERFLOW = 0;
-char* Temperature;
-char buffer[PAYLOAD];
-uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
 
 void timer2_init(){
 
@@ -51,7 +49,6 @@ void timer2_init(){
     // enable global interrupts
     sei();
 }
-
 void CPU_sleep(){
 
 	cli();
@@ -65,42 +62,31 @@ ISR(TIMER2_OVF_vect);
 
 int main(){
 
-	nrf24_init();
+	uint8_t* Temperature;
+	uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
+	Record record;
+
+	transceiver_init();
 	timer2_init();
-	// Make LED pin of PORTD an output
-	DDRD = DDRD | (1<<LED_tx);
-	// set sleep mode for the chip
+	transceiver_set_channel(2);
+	transceiver_set_payload(8);
+	transceiver_config();
+	transceiver_tx_address(tx_address);// Set the device addresses
+	record_set_sensor_id(&record, 1); // id should be unique for each sensor
+	DDRD = DDRD | (1<<LED_tx);// Make LED pin of PORTD an output
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-	/* Channel, payload length*/
-	nrf24_config(NRF24_CH,PAYLOAD);
-	/* Set the device addresses */
-	nrf24_tx_address(tx_address);
 
 	while(1){
-
 		if (TIMER_OVERFLOW >= WAIT_TIME){
-
 			cli(); // turn off interrupts
-			TIMER_OVERFLOW = 0;
-			// Set LED_tx high indicating that transmission started
-			PORTD |= 1 << LED_tx;
-
-			/* Get temperature from sensor
-			 * return format: '23.45 C'
-			 */
-			Temperature = getTemperature();
-
-			/* Automatically goes to TX mode */
-			nrf24_send(Temperature);
-
-			/* Wait for transmission to end */
-			while(nrf24_isSending());
-			_delay_ms(100);
-			// Set LED_tx low indicating that transmission completed
-			PORTD &= ~(1 << LED_tx);
+			TIMER_OVERFLOW = 0; // reset interrupt counter
+			PORTD |= 1 << LED_tx;// Set LED_tx high indicating that transmission started
+			Temperature = sensor_get_temperature();// Get temperature from sensor: '23.45 C'
+			record_set_sensor_data(&record, Temperature);
+			transceiver_send(&record);// Automatically goes to TX mode
+			PORTD &= ~(1 << LED_tx);// Set LED_tx low indicating that transmission completed
 		}
-		// Put CPU to sleep mode
-		CPU_sleep();
+		CPU_sleep();// Put CPU to sleep mode
 	}
 }
 
