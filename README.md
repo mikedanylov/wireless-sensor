@@ -1,4 +1,4 @@
-# Wireless Teperature Measurement System
+# Wireless Temperature Measurement System
 
 Wireless temperature sensor transmitter and receiver
 
