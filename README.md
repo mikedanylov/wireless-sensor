@@ -1,6 +1,7 @@
-# wireless-sensor
+# Wireless Teperature Measurement System
+
 Wireless temperature sensor transmitter and receiver
-==================================================================================================
+
 ## 02.06.15 [Update]
 1. Added two Hardware Adapters for DS18B20 and NRF24L01
 2. Added Record class which represents packet sent by transmitter including sensor ID and data.
