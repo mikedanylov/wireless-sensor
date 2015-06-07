@@ -5,11 +5,11 @@ Archive member included because of file (symbol)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
                               ./main.o (__do_copy_data)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
-                              ./main.o (__do_clear_bss)
+                              ./NRF24L01/nrf24.o (__do_clear_bss)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
-                              ./main.o (__ltsf2)
+                              ./NRF24L01_HardAdapt.o (__ltsf2)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
-                              ./main.o (__fixunssfsi)
+                              ./NRF24L01_HardAdapt.o (__fixunssfsi)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
                               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o) (__fp_cmp)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
@@ -17,9 +17,9 @@ Archive member included because of file (symbol)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
                               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o) (__fp_zero)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
-                              ./main.o (__gtsf2)
+                              ./NRF24L01_HardAdapt.o (__gtsf2)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
-                              ./main.o (__mulsf3)
+                              ./NRF24L01_HardAdapt.o (__mulsf3)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
                               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o) (__mulsf3x)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
@@ -32,12 +32,21 @@ Archive member included because of file (symbol)
                               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o) (__fp_pscB)
 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
                               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o) (__fp_round)
+/usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+                              ./NRF24L01_HardAdapt.o (malloc)
+/usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+                              ./NRF24L01_HardAdapt.o (strcat)
+/usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
+                              ./NRF24L01_HardAdapt.o (strcpy)
 
 Allocating common symbols
 Common symbol       size              file
 
-payload_len         0x1               ./nrf24.o
-buffer              0x8               ./main.o
+PAYLOAD             0x1               ./NRF24L01/nrf24.o
+__brkval            0x2               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+payload_len         0x1               ./NRF24L01/nrf24.o
+__flp               0x2               /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+NRF24_CH            0x1               ./NRF24L01/nrf24.o
 
 Memory Configuration
 
@@ -54,10 +63,12 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
-LOAD ./hd44780.o
+LOAD ./NRF24L01/nrf24.o
+LOAD ./NRF24L01/radioPinFunctions.o
+LOAD ./HD44780/hd44780.o
+LOAD ./NRF24L01_HardAdapt.o
+LOAD ./Record.o
 LOAD ./main.o
-LOAD ./nrf24.o
-LOAD ./radioPinFunctions.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a
@@ -154,7 +165,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000     0x140c
+.text           0x0000000000000000     0x18fe
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
                 0x0000000000000000                __vectors
@@ -237,10 +248,12 @@ END GROUP
                 0x00000000000000a2                __vector_16
                 0x00000000000000a2                __vector_18
                 0x00000000000000a2                __vector_20
- .text          0x00000000000000a6        0x0 ./hd44780.o
+ .text          0x00000000000000a6        0x0 ./NRF24L01/nrf24.o
+ .text          0x00000000000000a6        0x0 ./NRF24L01/radioPinFunctions.o
+ .text          0x00000000000000a6        0x0 ./HD44780/hd44780.o
+ .text          0x00000000000000a6        0x0 ./NRF24L01_HardAdapt.o
+ .text          0x00000000000000a6        0x0 ./Record.o
  .text          0x00000000000000a6        0x0 ./main.o
- .text          0x00000000000000a6        0x0 ./nrf24.o
- .text          0x00000000000000a6        0x0 ./radioPinFunctions.o
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
@@ -257,225 +270,280 @@ END GROUP
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
  .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+ .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+ .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+ .text          0x00000000000000a6        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
                 0x00000000000000a6                . = ALIGN (0x2)
  *(.text.*)
- .text.lcd_e_port_low
-                0x00000000000000a6       0x20 ./hd44780.o
- .text.lcd_e_port_high
-                0x00000000000000c6       0x20 ./hd44780.o
- .text.lcd_e_ddr_high
-                0x00000000000000e6       0x20 ./hd44780.o
- .text.lcd_read
-                0x0000000000000106      0x234 ./hd44780.o
- .text.lcd_getc
-                0x000000000000033a       0x14 ./hd44780.o
-                0x000000000000033a                lcd_getc
- .text.lcd_write
-                0x000000000000034e      0x26a ./hd44780.o
- .text.lcd_command
-                0x00000000000005b8       0x1c ./hd44780.o
-                0x00000000000005b8                lcd_command
- .text.lcd_goto
-                0x00000000000005d4       0x1c ./hd44780.o
-                0x00000000000005d4                lcd_goto
- .text.lcd_clrscr
-                0x00000000000005f0       0x14 ./hd44780.o
-                0x00000000000005f0                lcd_clrscr
- .text.lcd_home
-                0x0000000000000604       0x14 ./hd44780.o
-                0x0000000000000604                lcd_home
- .text.lcd_putc
-                0x0000000000000618       0x1c ./hd44780.o
-                0x0000000000000618                lcd_putc
- .text.lcd_puts
-                0x0000000000000634       0x3a ./hd44780.o
-                0x0000000000000634                lcd_puts
- .text.lcd_puts_P
-                0x000000000000066e       0x52 ./hd44780.o
-                0x000000000000066e                lcd_puts_P
- .text.lcd_init
-                0x00000000000006c0      0x20a ./hd44780.o
-                0x00000000000006c0                lcd_init
- .text.main     0x00000000000008ca      0x228 ./main.o
-                0x00000000000008ca                main
  .text.nrf24_init
-                0x0000000000000af2       0x1e ./nrf24.o
-                0x0000000000000af2                nrf24_init
+                0x00000000000000a6       0x1e ./NRF24L01/nrf24.o
+                0x00000000000000a6                nrf24_init
  .text.nrf24_config
-                0x0000000000000b10       0x8e ./nrf24.o
-                0x0000000000000b10                nrf24_config
+                0x00000000000000c4       0x8e ./NRF24L01/nrf24.o
+                0x00000000000000c4                nrf24_config
  .text.nrf24_rx_address
-                0x0000000000000b9e       0x32 ./nrf24.o
-                0x0000000000000b9e                nrf24_rx_address
+                0x0000000000000152       0x32 ./NRF24L01/nrf24.o
+                0x0000000000000152                nrf24_rx_address
  .text.nrf24_payload_length
-                0x0000000000000bd0       0x12 ./nrf24.o
-                0x0000000000000bd0                nrf24_payload_length
+                0x0000000000000184       0x12 ./NRF24L01/nrf24.o
+                0x0000000000000184                nrf24_payload_length
  .text.nrf24_tx_address
-                0x0000000000000be2       0x34 ./nrf24.o
-                0x0000000000000be2                nrf24_tx_address
+                0x0000000000000196       0x34 ./NRF24L01/nrf24.o
+                0x0000000000000196                nrf24_tx_address
  .text.nrf24_dataReady
-                0x0000000000000c16       0x38 ./nrf24.o
-                0x0000000000000c16                nrf24_dataReady
+                0x00000000000001ca       0x38 ./NRF24L01/nrf24.o
+                0x00000000000001ca                nrf24_dataReady
  .text.nrf24_rxFifoEmpty
-                0x0000000000000c4e       0x24 ./nrf24.o
-                0x0000000000000c4e                nrf24_rxFifoEmpty
+                0x0000000000000202       0x24 ./NRF24L01/nrf24.o
+                0x0000000000000202                nrf24_rxFifoEmpty
  .text.nrf24_payloadLength
-                0x0000000000000c72       0x2e ./nrf24.o
-                0x0000000000000c72                nrf24_payloadLength
+                0x0000000000000226       0x2e ./NRF24L01/nrf24.o
+                0x0000000000000226                nrf24_payloadLength
  .text.nrf24_getData
-                0x0000000000000ca0       0x44 ./nrf24.o
-                0x0000000000000ca0                nrf24_getData
+                0x0000000000000254       0x44 ./NRF24L01/nrf24.o
+                0x0000000000000254                nrf24_getData
  .text.nrf24_retransmissionCount
-                0x0000000000000ce4       0x28 ./nrf24.o
-                0x0000000000000ce4                nrf24_retransmissionCount
+                0x0000000000000298       0x28 ./NRF24L01/nrf24.o
+                0x0000000000000298                nrf24_retransmissionCount
  .text.nrf24_send
-                0x0000000000000d0c       0x5a ./nrf24.o
-                0x0000000000000d0c                nrf24_send
+                0x00000000000002c0       0x5a ./NRF24L01/nrf24.o
+                0x00000000000002c0                nrf24_send
  .text.nrf24_isSending
-                0x0000000000000d66       0x2c ./nrf24.o
-                0x0000000000000d66                nrf24_isSending
+                0x000000000000031a       0x2c ./NRF24L01/nrf24.o
+                0x000000000000031a                nrf24_isSending
  .text.nrf24_getStatus
-                0x0000000000000d92       0x28 ./nrf24.o
-                0x0000000000000d92                nrf24_getStatus
+                0x0000000000000346       0x28 ./NRF24L01/nrf24.o
+                0x0000000000000346                nrf24_getStatus
  .text.nrf24_lastMessageStatus
-                0x0000000000000dba       0x3e ./nrf24.o
-                0x0000000000000dba                nrf24_lastMessageStatus
+                0x000000000000036e       0x3e ./NRF24L01/nrf24.o
+                0x000000000000036e                nrf24_lastMessageStatus
  .text.nrf24_powerUpRx
-                0x0000000000000df8       0x3c ./nrf24.o
-                0x0000000000000df8                nrf24_powerUpRx
+                0x00000000000003ac       0x3c ./NRF24L01/nrf24.o
+                0x00000000000003ac                nrf24_powerUpRx
  .text.nrf24_powerUpTx
-                0x0000000000000e34       0x1e ./nrf24.o
-                0x0000000000000e34                nrf24_powerUpTx
+                0x00000000000003e8       0x1e ./NRF24L01/nrf24.o
+                0x00000000000003e8                nrf24_powerUpTx
  .text.nrf24_powerDown
-                0x0000000000000e52       0x1c ./nrf24.o
-                0x0000000000000e52                nrf24_powerDown
+                0x0000000000000406       0x1c ./NRF24L01/nrf24.o
+                0x0000000000000406                nrf24_powerDown
  .text.spi_transfer
-                0x0000000000000e6e       0x90 ./nrf24.o
-                0x0000000000000e6e                spi_transfer
+                0x0000000000000422       0x90 ./NRF24L01/nrf24.o
+                0x0000000000000422                spi_transfer
  .text.nrf24_transferSync
-                0x0000000000000efe       0x6e ./nrf24.o
-                0x0000000000000efe                nrf24_transferSync
+                0x00000000000004b2       0x6e ./NRF24L01/nrf24.o
+                0x00000000000004b2                nrf24_transferSync
  .text.nrf24_transmitSync
-                0x0000000000000f6c       0x48 ./nrf24.o
-                0x0000000000000f6c                nrf24_transmitSync
+                0x0000000000000520       0x48 ./NRF24L01/nrf24.o
+                0x0000000000000520                nrf24_transmitSync
  .text.nrf24_configRegister
-                0x0000000000000fb4       0x34 ./nrf24.o
-                0x0000000000000fb4                nrf24_configRegister
+                0x0000000000000568       0x34 ./NRF24L01/nrf24.o
+                0x0000000000000568                nrf24_configRegister
  .text.nrf24_readRegister
-                0x0000000000000fe8       0x46 ./nrf24.o
-                0x0000000000000fe8                nrf24_readRegister
+                0x000000000000059c       0x46 ./NRF24L01/nrf24.o
+                0x000000000000059c                nrf24_readRegister
  .text.nrf24_writeRegister
-                0x000000000000102e       0x42 ./nrf24.o
-                0x000000000000102e                nrf24_writeRegister
+                0x00000000000005e2       0x42 ./NRF24L01/nrf24.o
+                0x00000000000005e2                nrf24_writeRegister
+ .text.nrf24_set_channel
+                0x0000000000000624       0x1a ./NRF24L01/nrf24.o
+                0x0000000000000624                nrf24_set_channel
+ .text.nrf24_set_payload
+                0x000000000000063e       0x1a ./NRF24L01/nrf24.o
+                0x000000000000063e                nrf24_set_payload
  .text.nrf24_setupPins
-                0x0000000000001070       0x68 ./radioPinFunctions.o
-                0x0000000000001070                nrf24_setupPins
+                0x0000000000000658       0x68 ./NRF24L01/radioPinFunctions.o
+                0x0000000000000658                nrf24_setupPins
  .text.nrf24_ce_digitalWrite
-                0x00000000000010d8       0x40 ./radioPinFunctions.o
-                0x00000000000010d8                nrf24_ce_digitalWrite
+                0x00000000000006c0       0x40 ./NRF24L01/radioPinFunctions.o
+                0x00000000000006c0                nrf24_ce_digitalWrite
  .text.nrf24_csn_digitalWrite
-                0x0000000000001118       0x40 ./radioPinFunctions.o
-                0x0000000000001118                nrf24_csn_digitalWrite
+                0x0000000000000700       0x40 ./NRF24L01/radioPinFunctions.o
+                0x0000000000000700                nrf24_csn_digitalWrite
  .text.nrf24_sck_digitalWrite
-                0x0000000000001158       0x40 ./radioPinFunctions.o
-                0x0000000000001158                nrf24_sck_digitalWrite
+                0x0000000000000740       0x40 ./NRF24L01/radioPinFunctions.o
+                0x0000000000000740                nrf24_sck_digitalWrite
  .text.nrf24_mosi_digitalWrite
-                0x0000000000001198       0x40 ./radioPinFunctions.o
-                0x0000000000001198                nrf24_mosi_digitalWrite
+                0x0000000000000780       0x40 ./NRF24L01/radioPinFunctions.o
+                0x0000000000000780                nrf24_mosi_digitalWrite
  .text.nrf24_miso_digitalRead
-                0x00000000000011d8       0x18 ./radioPinFunctions.o
-                0x00000000000011d8                nrf24_miso_digitalRead
+                0x00000000000007c0       0x18 ./NRF24L01/radioPinFunctions.o
+                0x00000000000007c0                nrf24_miso_digitalRead
+ .text.lcd_e_port_low
+                0x00000000000007d8       0x20 ./HD44780/hd44780.o
+ .text.lcd_e_port_high
+                0x00000000000007f8       0x20 ./HD44780/hd44780.o
+ .text.lcd_e_ddr_high
+                0x0000000000000818       0x20 ./HD44780/hd44780.o
+ .text.lcd_read
+                0x0000000000000838      0x234 ./HD44780/hd44780.o
+ .text.lcd_getc
+                0x0000000000000a6c       0x14 ./HD44780/hd44780.o
+                0x0000000000000a6c                lcd_getc
+ .text.lcd_write
+                0x0000000000000a80      0x26a ./HD44780/hd44780.o
+ .text.lcd_command
+                0x0000000000000cea       0x1c ./HD44780/hd44780.o
+                0x0000000000000cea                lcd_command
+ .text.lcd_goto
+                0x0000000000000d06       0x1c ./HD44780/hd44780.o
+                0x0000000000000d06                lcd_goto
+ .text.lcd_clrscr
+                0x0000000000000d22       0x14 ./HD44780/hd44780.o
+                0x0000000000000d22                lcd_clrscr
+ .text.lcd_home
+                0x0000000000000d36       0x14 ./HD44780/hd44780.o
+                0x0000000000000d36                lcd_home
+ .text.lcd_putc
+                0x0000000000000d4a       0x1c ./HD44780/hd44780.o
+                0x0000000000000d4a                lcd_putc
+ .text.lcd_puts
+                0x0000000000000d66       0x3a ./HD44780/hd44780.o
+                0x0000000000000d66                lcd_puts
+ .text.lcd_puts_P
+                0x0000000000000da0       0x52 ./HD44780/hd44780.o
+                0x0000000000000da0                lcd_puts_P
+ .text.lcd_init
+                0x0000000000000df2      0x20a ./HD44780/hd44780.o
+                0x0000000000000df2                lcd_init
+ .text.transceiver_init
+                0x0000000000000ffc       0x12 ./NRF24L01_HardAdapt.o
+                0x0000000000000ffc                transceiver_init
+ .text.transceiver_send
+                0x000000000000100e      0x168 ./NRF24L01_HardAdapt.o
+                0x000000000000100e                transceiver_send
+ .text.transceiver_receive
+                0x0000000000001176       0x76 ./NRF24L01_HardAdapt.o
+                0x0000000000001176                transceiver_receive
+ .text.transceiver_tx_address
+                0x00000000000011ec       0x20 ./NRF24L01_HardAdapt.o
+                0x00000000000011ec                transceiver_tx_address
+ .text.transceiver_rx_address
+                0x000000000000120c       0x20 ./NRF24L01_HardAdapt.o
+                0x000000000000120c                transceiver_rx_address
+ .text.transceiver_config
+                0x000000000000122c       0x1c ./NRF24L01_HardAdapt.o
+                0x000000000000122c                transceiver_config
+ .text.transceiver_set_channel
+                0x0000000000001248       0x1a ./NRF24L01_HardAdapt.o
+                0x0000000000001248                transceiver_set_channel
+ .text.transceiver_set_payload
+                0x0000000000001262       0x1a ./NRF24L01_HardAdapt.o
+                0x0000000000001262                transceiver_set_payload
+ .text.record_set_sensor_id
+                0x000000000000127c       0x28 ./Record.o
+                0x000000000000127c                record_set_sensor_id
+ .text.record_set_sensor_data
+                0x00000000000012a4       0x30 ./Record.o
+                0x00000000000012a4                record_set_sensor_data
+ .text.record_get_sensor_id
+                0x00000000000012d4       0x20 ./Record.o
+                0x00000000000012d4                record_get_sensor_id
+ .text.record_get_sensor_data
+                0x00000000000012f4       0x22 ./Record.o
+                0x00000000000012f4                record_get_sensor_data
+ .text.main     0x0000000000001316      0x15a ./main.o
+                0x0000000000001316                main
  .text.libgcc.mul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000011f0        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000001470        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.avr-libc.fplib
-                0x00000000000011f0        0x8 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
-                0x00000000000011f0                __lesf2
-                0x00000000000011f0                __nesf2
-                0x00000000000011f0                __eqsf2
-                0x00000000000011f0                __cmpsf2
-                0x00000000000011f0                __ltsf2
+                0x0000000000001470        0x8 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
+                0x0000000000001470                __lesf2
+                0x0000000000001470                __nesf2
+                0x0000000000001470                __eqsf2
+                0x0000000000001470                __cmpsf2
+                0x0000000000001470                __ltsf2
  .text.avr-libc.fplib
-                0x00000000000011f8       0x58 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
-                0x00000000000011f8                __fixunssfsi
+                0x0000000000001478       0x58 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+                0x0000000000001478                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000000000001250       0x48 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
-                0x0000000000001250                __fp_cmp
+                0x00000000000014d0       0x48 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
+                0x00000000000014d0                __fp_cmp
  .text.avr-libc.fplib
-                0x0000000000001298       0x44 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
-                0x0000000000001298                __fp_split3
-                0x00000000000012a8                __fp_splitA
+                0x0000000000001518       0x44 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+                0x0000000000001518                __fp_split3
+                0x0000000000001528                __fp_splitA
  .text.avr-libc.fplib
-                0x00000000000012dc        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
-                0x00000000000012dc                __fp_zero
-                0x00000000000012de                __fp_szero
+                0x000000000000155c        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+                0x000000000000155c                __fp_zero
+                0x000000000000155e                __fp_szero
  .text.avr-libc.fplib
-                0x00000000000012ea        0x8 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
-                0x00000000000012ea                __gtsf2
-                0x00000000000012ea                __gesf2
+                0x000000000000156a        0x8 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
+                0x000000000000156a                __gtsf2
+                0x000000000000156a                __gesf2
  .text.avr-libc.fplib
-                0x00000000000012f2        0x4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
-                0x00000000000012f2                __mulsf3
+                0x0000000000001572        0x4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+                0x0000000000001572                __mulsf3
  .text.avr-libc.fplib
-                0x00000000000012f6       0xc2 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
-                0x000000000000130a                __mulsf3x
-                0x000000000000130e                __mulsf3_pse
+                0x0000000000001576       0xc2 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+                0x000000000000158a                __mulsf3x
+                0x000000000000158e                __mulsf3_pse
  .text.avr-libc.fplib
-                0x00000000000013b8        0xc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
-                0x00000000000013b8                __fp_inf
+                0x0000000000001638        0xc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+                0x0000000000001638                __fp_inf
  .text.avr-libc.fplib
-                0x00000000000013c4        0x6 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
-                0x00000000000013c4                __fp_nan
+                0x0000000000001644        0x6 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+                0x0000000000001644                __fp_nan
  .text.avr-libc.fplib
-                0x00000000000013ca        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
-                0x00000000000013ca                __fp_pscA
+                0x000000000000164a        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+                0x000000000000164a                __fp_pscA
  .text.avr-libc.fplib
-                0x00000000000013d8        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
-                0x00000000000013d8                __fp_pscB
+                0x0000000000001658        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+                0x0000000000001658                __fp_pscB
  .text.avr-libc.fplib
-                0x00000000000013e6       0x22 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
-                0x00000000000013e6                __fp_round
-                0x0000000000001408                . = ALIGN (0x2)
+                0x0000000000001666       0x22 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+                0x0000000000001666                __fp_round
+ .text.avr-libc
+                0x0000000000001688      0x24e /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+                0x0000000000001688                malloc
+                0x00000000000017b8                free
+ .text.avr-libc
+                0x00000000000018d6       0x16 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+                0x00000000000018d6                strcat
+ .text.avr-libc
+                0x00000000000018ec        0xe /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
+                0x00000000000018ec                strcpy
+                0x00000000000018fa                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000001408        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
-                0x0000000000001408                exit
-                0x0000000000001408                _exit
+ .fini9         0x00000000000018fa        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x00000000000018fa                exit
+                0x00000000000018fa                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -494,18 +562,20 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000001408        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x00000000000018fa        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x000000000000140c                _etext = .
+                0x00000000000018fe                _etext = .
 
-.data           0x0000000000800100       0x12 load address 0x000000000000140c
+.data           0x0000000000800100       0x18 load address 0x00000000000018fe
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
- .data          0x0000000000800100        0x0 ./hd44780.o
+ .data          0x0000000000800100        0x0 ./NRF24L01/nrf24.o
+ .data          0x0000000000800100        0x0 ./NRF24L01/radioPinFunctions.o
+ .data          0x0000000000800100        0x0 ./HD44780/hd44780.o
+ .data          0x0000000000800100        0x0 ./NRF24L01_HardAdapt.o
+ .data          0x0000000000800100        0x0 ./Record.o
  .data          0x0000000000800100        0x0 ./main.o
- .data          0x0000000000800100        0x0 ./nrf24.o
- .data          0x0000000000800100        0x0 ./radioPinFunctions.o
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
@@ -522,59 +592,70 @@ END GROUP
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+ .data          0x0000000000800100        0x6 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+                0x0000000000800100                __malloc_heap_end
+                0x0000000000800102                __malloc_heap_start
+                0x0000000000800104                __malloc_margin
+ .data          0x0000000000800106        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+ .data          0x0000000000800106        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
  *(.data*)
- .data.rx_address
-                0x0000000000800100        0x5 ./main.o
-                0x0000000000800100                rx_address
  *(.rodata)
- .rodata        0x0000000000800105        0xc ./main.o
+ .rodata        0x0000000000800106       0x11 ./main.o
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800112                . = ALIGN (0x2)
- *fill*         0x0000000000800111        0x1 
-                0x0000000000800112                _edata = .
-                0x0000000000800112                PROVIDE (__data_end, .)
+                0x0000000000800118                . = ALIGN (0x2)
+ *fill*         0x0000000000800117        0x1 
+                0x0000000000800118                _edata = .
+                0x0000000000800118                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800112        0x9
-                0x0000000000800112                PROVIDE (__bss_start, .)
+.bss            0x0000000000800118        0x7
+                0x0000000000800118                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
- .bss           0x0000000000800112        0x0 ./hd44780.o
- .bss           0x0000000000800112        0x0 ./main.o
- .bss           0x0000000000800112        0x0 ./nrf24.o
- .bss           0x0000000000800112        0x0 ./radioPinFunctions.o
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
- .bss           0x0000000000800112        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
+ .bss           0x0000000000800118        0x0 ./NRF24L01/nrf24.o
+ .bss           0x0000000000800118        0x0 ./NRF24L01/radioPinFunctions.o
+ .bss           0x0000000000800118        0x0 ./HD44780/hd44780.o
+ .bss           0x0000000000800118        0x0 ./NRF24L01_HardAdapt.o
+ .bss           0x0000000000800118        0x0 ./Record.o
+ .bss           0x0000000000800118        0x0 ./main.o
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+ .bss           0x0000000000800118        0x0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x0000000000800112        0x8 ./main.o
-                0x0000000000800112                buffer
- COMMON         0x000000000080011a        0x1 ./nrf24.o
-                0x000000000080011a                payload_len
-                0x000000000080011b                PROVIDE (__bss_end, .)
-                0x000000000000140c                __data_load_start = LOADADDR (.data)
-                0x000000000000141e                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0000000000800118        0x3 ./NRF24L01/nrf24.o
+                0x0000000000800118                PAYLOAD
+                0x0000000000800119                payload_len
+                0x000000000080011a                NRF24_CH
+ COMMON         0x000000000080011b        0x4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+                0x000000000080011b                __brkval
+                0x000000000080011d                __flp
+                0x000000000080011f                PROVIDE (__bss_end, .)
+                0x00000000000018fe                __data_load_start = LOADADDR (.data)
+                0x0000000000001916                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x000000000080011b        0x0
-                0x000000000080011b                PROVIDE (__noinit_start, .)
+.noinit         0x000000000080011f        0x0
+                0x000000000080011f                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x000000000080011b                PROVIDE (__noinit_end, .)
-                0x000000000080011b                _end = .
-                0x000000000080011b                PROVIDE (__heap_start, .)
+                0x000000000080011f                PROVIDE (__noinit_end, .)
+                0x000000000080011f                _end = .
+                0x000000000080011f                PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
  *(.eeprom*)
@@ -592,53 +673,63 @@ END GROUP
 .signature
  *(.signature*)
 
-.stab           0x0000000000000000     0x3e4c
+.stab           0x0000000000000000     0x5304
  *(.stab)
  .stab          0x0000000000000000      0x6cc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
- .stab          0x00000000000006cc      0xed0 ./hd44780.o
-                                        0xedc (size before relaxing)
- .stab          0x000000000000159c      0x540 ./main.o
-                                        0x708 (size before relaxing)
- .stab          0x0000000000001adc      0xd8c ./nrf24.o
-                                        0xef4 (size before relaxing)
- .stab          0x0000000000002868      0x480 ./radioPinFunctions.o
+ .stab          0x00000000000006cc      0xf78 ./NRF24L01/nrf24.o
+                                        0xf84 (size before relaxing)
+ .stab          0x0000000000001644      0x4d4 ./NRF24L01/radioPinFunctions.o
                                         0x648 (size before relaxing)
- .stab          0x0000000000002ce8       0x6c /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .stab          0x0000000000001b18      0xd14 ./HD44780/hd44780.o
+                                        0xedc (size before relaxing)
+ .stab          0x000000000000282c      0x720 ./NRF24L01_HardAdapt.o
+                                        0x8dc (size before relaxing)
+ .stab          0x0000000000002f4c      0x3b4 ./Record.o
+                                        0x5b8 (size before relaxing)
+ .stab          0x0000000000003300      0x4bc ./main.o
+                                        0x714 (size before relaxing)
+ .stab          0x00000000000037bc       0x6c /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
                                          0x78 (size before relaxing)
- .stab          0x0000000000002d54       0xd8 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
+ .stab          0x0000000000003828       0xd8 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
                                          0xe4 (size before relaxing)
- .stab          0x0000000000002e2c       0xb4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+ .stab          0x0000000000003900       0xb4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
                                          0xc0 (size before relaxing)
- .stab          0x0000000000002ee0       0x90 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
+ .stab          0x00000000000039b4       0x90 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
                                          0x9c (size before relaxing)
- .stab          0x0000000000002f70      0x240 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+ .stab          0x0000000000003a44      0x240 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
                                         0x24c (size before relaxing)
- .stab          0x00000000000031b0      0x1e0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
+ .stab          0x0000000000003c84      0x1e0 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
                                         0x1ec (size before relaxing)
- .stab          0x0000000000003390      0x1d4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+ .stab          0x0000000000003e64      0x1d4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_split3.o)
                                         0x1e0 (size before relaxing)
- .stab          0x0000000000003564       0x90 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+ .stab          0x0000000000004038       0x90 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_zero.o)
                                          0x9c (size before relaxing)
- .stab          0x00000000000035f4       0x6c /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
+ .stab          0x00000000000040c8       0x6c /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(gesf2.o)
                                          0x78 (size before relaxing)
- .stab          0x0000000000003660       0x48 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+ .stab          0x0000000000004134       0x48 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3.o)
                                          0x54 (size before relaxing)
- .stab          0x00000000000036a8      0x4d4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+ .stab          0x000000000000417c      0x4d4 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
                                         0x4e0 (size before relaxing)
- .stab          0x0000000000003b7c       0x78 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+ .stab          0x0000000000004650       0x78 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_inf.o)
                                          0x84 (size before relaxing)
- .stab          0x0000000000003bf4       0x54 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+ .stab          0x00000000000046c8       0x54 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_nan.o)
                                          0x60 (size before relaxing)
- .stab          0x0000000000003c48       0x84 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+ .stab          0x000000000000471c       0x84 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
                                          0x90 (size before relaxing)
- .stab          0x0000000000003ccc       0x84 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+ .stab          0x00000000000047a0       0x84 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
                                          0x90 (size before relaxing)
- .stab          0x0000000000003d50       0xfc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
+ .stab          0x0000000000004824       0xfc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libm.a(fp_round.o)
                                         0x108 (size before relaxing)
+ .stab          0x0000000000004920      0x8dc /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
+                                        0x8e8 (size before relaxing)
+ .stab          0x00000000000051fc       0x9c /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcat.o)
+                                         0xa8 (size before relaxing)
+ .stab          0x0000000000005298       0x6c /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(strcpy.o)
+                                         0x78 (size before relaxing)
 
-.stabstr        0x0000000000000000     0x160c
+.stabstr        0x0000000000000000     0x226f
  *(.stabstr)
- .stabstr       0x0000000000000000     0x160c /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
+ .stabstr       0x0000000000000000     0x226f /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/crtm328p.o
 
 .stab.excl
  *(.stab.excl)
@@ -654,12 +745,15 @@ END GROUP
 
 .comment        0x0000000000000000       0x42
  *(.comment)
- .comment       0x0000000000000000       0x21 ./hd44780.o
+ .comment       0x0000000000000000       0x21 ./NRF24L01/nrf24.o
                                          0x22 (size before relaxing)
+ .comment       0x0000000000000000       0x22 ./NRF24L01/radioPinFunctions.o
+ .comment       0x0000000000000000       0x22 ./HD44780/hd44780.o
+ .comment       0x0000000000000000       0x22 ./NRF24L01_HardAdapt.o
+ .comment       0x0000000000000000       0x22 ./Record.o
  .comment       0x0000000000000000       0x22 ./main.o
- .comment       0x0000000000000021       0x21 ./nrf24.o
+ .comment       0x0000000000000021       0x21 /usr/lib/gcc/avr/4.9.2/../../../../avr/lib/avr5/libc.a(malloc.o)
                                          0x22 (size before relaxing)
- .comment       0x0000000000000000       0x22 ./radioPinFunctions.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)

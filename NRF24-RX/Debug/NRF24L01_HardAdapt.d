@@ -1,0 +1,10 @@
+NRF24L01_HardAdapt.d: ../NRF24L01_HardAdapt.c ../NRF24L01_HardAdapt.h \
+ ../NRF24L01/nrf24.h ../NRF24L01/nRF24L01.h ../Record.h
+
+../NRF24L01_HardAdapt.h:
+
+../NRF24L01/nrf24.h:
+
+../NRF24L01/nRF24L01.h:
+
+../Record.h:

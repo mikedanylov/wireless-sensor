@@ -8,6 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include NRF24L01/subdir.mk
+-include HD44780/subdir.mk
 -include subdir.mk
 -include objects.mk
 

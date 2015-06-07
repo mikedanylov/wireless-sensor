@@ -9,23 +9,21 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <util/delay.h>
-#include "nrf24.h"
-#include "hd44780.h"
-
-char buffer[8];
-//uint8_t tx_address[5] = {0xD7,0xD7,0xD7,0xD7,0xD7};
-uint8_t rx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
+#include "NRF24L01/nrf24.h"
+#include "HD44780/hd44780.h"
+#include "NRF24L01_HardAdapt.h"
+#include "Record.h"
 
 int main(){
 
-	/* init hardware pins */
-	nrf24_init();
+	Record records[4] = {0};
+	uint8_t rx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
 	lcd_init();
-	/* Channel #2 , payload length: 4 */
-	nrf24_config(2,8);
-	/* Set the device addresses */
-	//nrf24_tx_address(tx_address);
-	nrf24_rx_address(rx_address);
+	transceiver_init();
+	transceiver_set_channel(2);
+	transceiver_set_payload(8);
+	transceiver_config();
+	transceiver_rx_address(rx_address);
 
 	lcd_home();
 	lcd_puts("Starting...");
@@ -33,12 +31,10 @@ int main(){
 	lcd_clrscr();
 
 	while(1){
-		if(nrf24_dataReady()){
-			nrf24_getData(buffer);
-			lcd_clrscr();
-			lcd_home();
-			lcd_puts(buffer);
-			_delay_ms(10);
-		}
+		records[0] = transceiver_receive();
+		/*
+		 * TODO
+		 * forward data directly to UART
+		 */
 	}
 }

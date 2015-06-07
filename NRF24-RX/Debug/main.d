@@ -1,10 +1,15 @@
-main.d: ../main.c ../nrf24.h ../nRF24L01.h ../hd44780.h \
- ../hd44780_settings.h
+main.d: ../main.c ../NRF24L01/nrf24.h ../NRF24L01/nRF24L01.h \
+ ../HD44780/hd44780.h ../HD44780/hd44780_settings.h \
+ ../NRF24L01_HardAdapt.h ../Record.h
 
-../nrf24.h:
+../NRF24L01/nrf24.h:
 
-../nRF24L01.h:
+../NRF24L01/nRF24L01.h:
 
-../hd44780.h:
+../HD44780/hd44780.h:
 
-../hd44780_settings.h:
+../HD44780/hd44780_settings.h:
+
+../NRF24L01_HardAdapt.h:
+
+../Record.h:
