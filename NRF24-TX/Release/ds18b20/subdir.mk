@@ -4,26 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../NRF24L01_HardAdapt.c \
-../Record.c \
-../TempSensHardAdapt.c \
-../main.c 
+../ds18b20/ds18b20.c 
 
 OBJS += \
-./NRF24L01_HardAdapt.o \
-./Record.o \
-./TempSensHardAdapt.o \
-./main.o 
+./ds18b20/ds18b20.o 
 
 C_DEPS += \
-./NRF24L01_HardAdapt.d \
-./Record.d \
-./TempSensHardAdapt.d \
-./main.d 
+./ds18b20/ds18b20.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.o: ../%.c
+ds18b20/%.o: ../ds18b20/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: AVR Compiler'
 	avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega328p -DF_CPU=128000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -c -o "$@" "$<"

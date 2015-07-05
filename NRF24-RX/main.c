@@ -16,7 +16,7 @@
 
 int main(){
 
-	Record records[4] = {0};
+	Record records[4];
 	uint8_t rx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
 	lcd_init();
 	transceiver_init();
@@ -36,5 +36,9 @@ int main(){
 		 * TODO
 		 * forward data directly to UART
 		 */
+		lcd_home();
+		lcd_puts(records[0].sensor_data);
+		_delay_ms(1000);
+		lcd_clrscr();
 	}
 }

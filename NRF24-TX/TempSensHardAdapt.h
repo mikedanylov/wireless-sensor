@@ -10,6 +10,6 @@
 
 #include "ds18b20/ds18b20.h"
 
-uint8_t* sensor_get_temperature();
+void sensor_get_temperature(uint8_t* data);
 
 #endif /* TEMPSENSHARDADAPT_H_ */

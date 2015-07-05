@@ -22,5 +22,6 @@ C_DEPS :=
 SUBDIRS := \
 . \
 ds18b20 \
+UART \
 NRF24L01 \
 
