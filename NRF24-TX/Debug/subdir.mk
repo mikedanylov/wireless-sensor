@@ -4,21 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../NRF24L01_HardAdapt.c \
 ../Record.c \
-../TempSensHardAdapt.c \
 ../main.c 
 
 OBJS += \
-./NRF24L01_HardAdapt.o \
 ./Record.o \
-./TempSensHardAdapt.o \
 ./main.o 
 
 C_DEPS += \
-./NRF24L01_HardAdapt.d \
 ./Record.d \
-./TempSensHardAdapt.d \
 ./main.d 
 
 

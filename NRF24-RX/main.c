@@ -7,23 +7,23 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <util/delay.h>
+
 #include "NRF24L01/nrf24.h"
 #include "HD44780/hd44780.h"
-#include "NRF24L01_HardAdapt.h"
-#include "Record.h"
+
+#define PAYLOAD 8
+#define NRF_CH 2
 
 int main(){
 
-	Record records[4];
+	char nrf_buff[PAYLOAD];
 	uint8_t rx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
+
+	nrf24_init();
 	lcd_init();
-	transceiver_init();
-	transceiver_set_channel(2);
-	transceiver_set_payload(8);
-	transceiver_config();
-	transceiver_rx_address(rx_address);
+	nrf24_config(NRF_CH, PAYLOAD);
+	nrf24_rx_address(rx_address);
 
 	lcd_home();
 	lcd_puts("Starting...");
@@ -31,14 +31,13 @@ int main(){
 	lcd_clrscr();
 
 	while(1){
-		records[0] = transceiver_receive();
-		/*
-		 * TODO
-		 * forward data directly to UART
-		 */
-		lcd_home();
-		lcd_puts(records[0].sensor_data);
-		_delay_ms(1000);
-		lcd_clrscr();
+		if(nrf24_dataReady()){
+			nrf24_getData(nrf_buff);
+			lcd_clrscr();
+			lcd_home();
+			lcd_puts(nrf_buff);
+			lcd_puts("       ");
+			_delay_ms(10);
+		}
 	}
 }

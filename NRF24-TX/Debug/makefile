@@ -8,8 +8,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include ds18b20/subdir.mk
--include UART/subdir.mk
+-include uart/subdir.mk
+-include timer2/subdir.mk
+-include adc/subdir.mk
 -include NRF24L01/subdir.mk
 -include subdir.mk
 -include objects.mk
@@ -67,7 +68,7 @@ sizedummy: NRF24-TX.elf
 
 avrdudedummy: NRF24-TX.elf
 	@echo 'Invoking: AVRDude'
-	/bin/avrdude -pm328p -cavrispmkII -Uflash:w:NRF24-TX.hex:a
+	/usr/bin/avrdude -pm328p -cavrispmkII -B40 -Uflash:w:NRF24-TX.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 

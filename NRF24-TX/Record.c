@@ -10,12 +10,12 @@
 void record_set_sensor_id(Record* record, uint8_t id){
 	record->sensor_id = id;
 }
-void record_set_sensor_data(Record* record, uint8_t* data){
+void record_set_sensor_data(Record* record, char* data){
 	record->sensor_data = data;
 }
 uint8_t record_get_sensor_id(Record* record){
 	return record->sensor_id;
 }
-uint8_t* record_get_sensor_data(Record* record){
+char* record_get_sensor_data(Record* record){
 	return record->sensor_data;
 }

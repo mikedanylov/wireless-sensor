@@ -349,11 +349,3 @@ void nrf24_writeRegister(uint8_t reg, uint8_t* value, uint8_t len)
     nrf24_transmitSync(value,len);
     nrf24_csn_digitalWrite(HIGH);
 }
-
-void nrf24_set_channel(uint8_t channel){
-	NRF24_CH = channel;
-}
-void nrf24_set_payload(uint8_t payload){
-	PAYLOAD = payload;
-}
-

@@ -66,7 +66,7 @@ sizedummy: NRF24-RX.elf
 
 avrdudedummy: NRF24-RX.elf
 	@echo 'Invoking: AVRDude'
-	/bin/avrdude -pm328p -cavrispmkII -Uflash:w:NRF24-RX.hex:a
+	/usr/bin/avrdude -pm328p -cavrispmkII -B1 -Uflash:w:NRF24-RX.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 

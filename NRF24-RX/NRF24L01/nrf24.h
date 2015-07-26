@@ -17,13 +17,6 @@
 #include "nRF24L01.h"
 #include <stdint.h>
 
-// project defined variables
-//#define PAYLOAD 8
-//#define NRF24_CH 2
-uint8_t PAYLOAD;
-uint8_t NRF24_CH;
-////////////////////////////
-
 #define LOW 0
 #define HIGH 1
 
@@ -72,11 +65,8 @@ void    nrf24_configRegister(uint8_t reg, uint8_t value);
 void    nrf24_readRegister(uint8_t reg, uint8_t* value, uint8_t len);
 void    nrf24_writeRegister(uint8_t reg, uint8_t* value, uint8_t len);
 
-void	nrf24_set_channel(uint8_t channel);
-void 	nrf24_set_payload(uint8_t payload);
-
 /* -------------------------------------------------------------------------- */
-/* You should implement the platform specific functions in your code */
+/* You should implement the platform spesific functions in your code */
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
@@ -119,7 +109,7 @@ extern void nrf24_mosi_digitalWrite(uint8_t state);
 
 /* -------------------------------------------------------------------------- */
 /* nrf24 MISO pin read function
-returns: Non-zero if the pin is high */
+ * - returns: Non-zero if the pin is high */
 /* -------------------------------------------------------------------------- */
 extern uint8_t nrf24_miso_digitalRead();
 

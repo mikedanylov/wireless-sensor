@@ -20,13 +20,13 @@
 
 typedef struct{
 	uint8_t sensor_id;
-	uint8_t* sensor_data;
+	char* sensor_data;
 }Record;
 
 void record_set_sensor_id(Record* record, uint8_t id);
-void record_set_sensor_data(Record* record, uint8_t* data);
+void record_set_sensor_data(Record* record, char* data);
 
 uint8_t record_get_sensor_id(Record* record);
-uint8_t* record_get_sensor_data(Record* record);
+char* record_get_sensor_data(Record* record);
 
 #endif /* RECORD_H_ */

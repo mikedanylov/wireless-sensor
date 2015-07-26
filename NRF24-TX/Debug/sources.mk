@@ -20,8 +20,9 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+uart \
+timer2 \
 . \
-ds18b20 \
-UART \
+adc \
 NRF24L01 \
 
