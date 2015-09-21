@@ -1,12 +1,36 @@
-# Wireless Temperature Measurement System
+## Wireless Temperature Sensor
 
 Wireless temperature sensor transmitter and receiver
 
-## 02.06.15 [Update]
-1. Added two Hardware Adapters for DS18B20 and NRF24L01
-2. Added Record class which represents packet sent by transmitter including sensor ID and data.
+####Hardware configuration
+######Transmitter:
+* Analog temperature sensor TMP36GZ (Analog Devices) 
+* 8 bit microcontroller ATmega328p (Atmel)
+* Wireless transceiver NRF24L01+ (Nordic Semiconductiors)
+* Step-up voltage regulator 3.3V
+* Other misc components
+######Receiver:
+* 8 bit microcontroller ATmega328p (Atmel)
+* Wireless transceiver NRF24L01+ (Nordic Semiconductiors)
+* USB-TTL converter
+* Other misc components
 
-## 13.03.15 [Update] 
-Now transmitter uses timer interrupt to send data once in a while. This approach reduces power consumption significantly since now CPU is put to sleep mode after data was send.
+![Transmitter Hardware](/etc/transmitterHW.JPG)
+Configuration of transmitter and receiver is pretty much the same but the latter doesn't have sensor and voltage reg but has USB-TTL converter instead.
 
-[How it looked like on first successfull test!](etc/v1.jpg)
+####Brief description of operation
+######Transmitter:
+1. Power on or reset initializes timer interrupt and sensor id is assigned to transmitter
+2. Most of the time the uC stays in sleep mode and wireless transceiver is powered down
+3. Every ~2 min a timer interrupt occurs
+4. uC lights up and LED indicating that it woke up from sleep mode
+5. NRF24 chip is initialized 
+6. Samples (~100) are read from ADC where analog temperature sensor is connected
+7. Average is calculated concatenated with sensor id and passed to NRF24 module
+8. Transceiver sends the data over pipe to receiver
+9. LED is turned off indicating that transmission is completed
+10. NRF24 is powered down and atmega328p goes to sleep mode again
+######Receiver:
+1. Receiver is pulling the data from a pipe all the time
+2. Once the data is available it sends it straight to USART
+Then it is a task of host machine to read the serial port and interpret the data accodingly. 
