@@ -9,6 +9,7 @@ Wireless temperature sensor transmitter and receiver
 * Wireless transceiver NRF24L01+ (Nordic Semiconductiors)
 * Step-up voltage regulator 3.3V
 * Other misc components
+
 ######Receiver:
 * 8 bit microcontroller ATmega328p (Atmel)
 * Wireless transceiver NRF24L01+ (Nordic Semiconductiors)
@@ -30,6 +31,7 @@ Configuration of transmitter and receiver is pretty much the same but the latter
 8. Transceiver sends the data over pipe to receiver
 9. LED is turned off indicating that transmission is completed
 10. NRF24 is powered down and atmega328p goes to sleep mode again
+
 ######Receiver:
 1. Receiver is pulling the data from a pipe all the time
 2. Once the data is available it sends it straight to USART
